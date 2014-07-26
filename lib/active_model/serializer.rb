@@ -2,6 +2,11 @@ module ActiveModel
   class Serializer
     class << self
       attr_accessor :_attributes
+      attr_writer :default_adapter
+
+      def default_adapter
+        @default_adapter || Adapter::NullAdapter
+      end
     end
 
     def self.inherited(base)
@@ -11,7 +16,6 @@ module ActiveModel
     def self.attributes(*attrs)
       @_attributes.concat attrs
 
-      
       attrs.each do |attr|
         define_method attr do
           object.read_attribute_for_serialization(attr)

@@ -13,6 +13,7 @@ module ActionController
 
       # We just have Null for now, this will change
       def test_render_using_implicit_serializer
+        ActiveModel::Serializer.default_adapter = ActiveModel::Serializer::Adapter::NullAdapter
         get :render_using_implicit_serializer
 
         assert_equal 'application/json', @response.content_type
@@ -21,5 +22,4 @@ module ActionController
     end
   end
 end
-
 
