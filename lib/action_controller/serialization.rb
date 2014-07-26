@@ -18,7 +18,5 @@ module ActionController
         super
       end
     end
-
   end
 end
-
