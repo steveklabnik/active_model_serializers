@@ -10,15 +10,15 @@ module ActionController
       serializer = ActiveModel::Serializer.serializer_for(resource)
 
       if serializer
-        # omg hax
         object = serializer.new(resource)
-        adapter = ActiveModel::Serializer::Adapter::NullAdapter.new(object)
+        adapter = ActiveModel::Serializer.default_adapter.new(object)
 
         super(adapter, options)
       else
         super
       end
     end
+
   end
 end
 
