@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 gemspec
 
 gem "minitest"
+gem "yard"
 
 version = ENV["RAILS_VERSION"] || "4.1"
 
