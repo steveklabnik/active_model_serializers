@@ -12,7 +12,17 @@ module ActiveModel
     def self.inherited(base)
       base._attributes = []
     end
-
+   
+    # Define the list of attributes to serialize
+    #
+    # For each symbol passed, check to see if the model
+    # has a matching method defined. Otherwise, define a 
+    # new method which calls `read_attribute_for_serialization`
+    # 
+    # @param [Symbol] attrs
+    #   the attr to define a new method for
+    #
+    # @api public
     def self.attributes(*attrs)
       @_attributes.concat attrs
 
@@ -23,7 +33,13 @@ module ActiveModel
       end
     end
 
-    if RUBY_VERSION >= '2.0'
+    if RUBY_VERSION >= '2.0' 
+    # Returns constantized serial class, for a given resource
+    #
+    # @param [Object] resource
+    #   the resource to find a matching serializer for
+    #
+    # @api public
       def self.serializer_for(resource)
         if resource.respond_to?(:to_ary)
           ArraySerializer
@@ -43,14 +59,17 @@ module ActiveModel
           "#{resource.class.name}Serializer".safe_constantize
         end
       end
-    end
+    end 
 
     attr_accessor :object
-
+    
     def initialize(object)
       @object = object
     end
 
+    # Returns a hash of attributes defined by `self.attributes(*attrs)`
+    # 
+    # @api public
     def attributes
       self.class._attributes.dup.each_with_object({}) do |name, hash|
         hash[name] = send(name)
